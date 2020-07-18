@@ -32,7 +32,7 @@ module.exports = (_env, argv) => {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                reloadAll: true
+                hmr: devMode,
               }
             },
             'css-loader',
