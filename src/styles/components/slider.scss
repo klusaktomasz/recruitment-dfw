@@ -1,0 +1,17 @@
+.slider {
+  // TODO (Tomasz Kłusak): Add diff padding for wider screens.
+  padding: 1.9em 0.625em;
+
+}
+
+.slider__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.slider__item {
+  min-width: 320px;
+  max-width: 358px;
+}
