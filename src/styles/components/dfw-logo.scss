@@ -1,0 +1,14 @@
+.dfw-logo__datafeed {
+  color: $blue;
+  font-weight: 700;
+}
+
+.dfw-logo__watch {
+  color: $green;
+}
+
+@media (max-width: 745px) {
+  .dfw-logo {
+    display: block;
+  }
+}
