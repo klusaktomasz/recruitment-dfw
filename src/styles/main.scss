@@ -1,6 +1,13 @@
 @import '~normalize.css';
 
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  background: white;
-  color: red;
+  font-family: 'PT Sans', sans-serif;
 }
