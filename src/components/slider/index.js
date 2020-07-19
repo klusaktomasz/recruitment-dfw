@@ -1,22 +1,27 @@
 class Slider {
+  /**
+   * Creates new slider.
+   *
+   * @param {HTMLElement|string} element
+   */
   constructor(element) {
     // Validate passed slider element.
     if (typeof element === 'string') {
       this.$el = document.querySelector(element);
     }
-    else if (element instanceof Element) {
+    else if (element instanceof HTMLElement) {
       this.$el = element;
     }
     if (!this.$el) {
       throw new TypeError('element must be passed as non-empty string representing valid CSS selector or Element Object');
     }
 
-    // Bind this to all functions
+    // Provide this to methods.
     this._manageResize = this._manageResize.bind(this);
     this.nextItems = this.nextItems.bind(this);
     this.prevItems = this.prevItems.bind(this);
 
-    //
+    // Slider's items.
     this.$items = this.$el.querySelector('.slider__items');
 
     // Check if there are nav buttons, register all required events for them.
@@ -26,37 +31,56 @@ class Slider {
       this._registerNavButtons();
     }
 
-    //
     this.itemsToShow = null;
     this._setItemsToShow();
 
-    //
+    // Always start with first item.
     this._currentItemIndex = 0;
 
     window.addEventListener('resize', this._manageResize);
   }
 
+  /**
+   * Sets current item index and manages slider.
+   * @param currentItemIndex
+   */
   set currentItemIndex (currentItemIndex) {
     this._currentItemIndex = currentItemIndex;
     this.showItem(currentItemIndex);
     this._manageBtns();
   }
 
+  /**
+   * Returns current item index.
+   * @returns {number}
+   */
   get currentItemIndex () {
     return this._currentItemIndex;
   }
 
+  /**
+   * Registers button's events.
+   * @private
+   */
   _registerNavButtons () {
     this.$nextBtn.addEventListener('click', this.nextItems);
     this.$prevBtn.addEventListener('click', this.prevItems);
   }
 
+  /**
+   * Recalculates position of slider.
+   * @private
+   */
   _manageResize() {
     this._setItemsToShow()
     this.showItem(this.currentItemIndex);
     this._manageBtns();
   }
 
+  /**
+   * Sets state of buttons depending on shown items.
+   * @private
+   */
   _manageBtns () {
     if (!this.$prevBtn || !this.$nextBtn) {
       return;
@@ -66,6 +90,10 @@ class Slider {
     this.$nextBtn.disabled = this.currentItemIndex + this.itemsToShow >= this.$items.children.length;
   }
 
+  /**
+   * Counts item's amount that have to be seen at once.
+   * @private
+   */
   _setItemsToShow () {
     if (window.innerWidth <= 770) {
       this.itemsToShow = 1;
@@ -78,6 +106,11 @@ class Slider {
     }
   }
 
+  /**
+   * Sets new item to show.
+   *
+   * @param {number} index - index of first item to show.
+   */
   showItem (index) {
     const item = this.$items.children[index];
     if (!item) {
@@ -96,6 +129,9 @@ class Slider {
     });
   }
 
+  /**
+   * Handles click on next button and set new items to show.
+   */
   nextItems () {
     let newFirstItemIndex = this.currentItemIndex + this.itemsToShow;
     if (newFirstItemIndex > this.$items.children.length - this.itemsToShow) {
@@ -104,6 +140,9 @@ class Slider {
     this.currentItemIndex = newFirstItemIndex;
   }
 
+  /**
+   * Handles click on prev button and set new items to show.
+   */
   prevItems () {
     let newFirstItemIndex = this.currentItemIndex - this.itemsToShow;
     if (newFirstItemIndex < 0 ) {
