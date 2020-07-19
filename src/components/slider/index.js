@@ -34,6 +34,7 @@ class Slider {
 
     // Always start with first item.
     this._currentItemIndex = 0;
+    this.showItem(0);
 
     this._createNavigation();
     this._createPagination();
