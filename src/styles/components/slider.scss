@@ -3,28 +3,32 @@ $overflowMargin: 10px;
 .slider {
   // TODO (Tomasz Kłusak): Add diff padding for wider screens.
   padding: 0 $overflowMargin;
-  max-width: 1480px;
   position: relative;
 }
 
 .slider__track {
   overflow: hidden;
+  max-width: 1340px;
+  margin: 0 60px;
 }
 
 .slider__items {
   list-style: none;
-  margin: 0 60px;
+  margin: 0 45px;
   padding: 0;
   display: flex;
 }
 
 .slider__item {
   min-width: 358px;
-  max-width: 358px;
   margin: 30px 45px;
 
-  &--un {
-    opacity: 0;
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
   }
 }
 
@@ -56,4 +60,81 @@ $overflowMargin: 10px;
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 1480px) {
+  .slider__track {
+    max-width: 1140px;
+  }
+
+  .slider__item {
+    min-width: 320px;
+    margin: 30px 27px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .slider__track {
+    max-width: 810px;
+  }
+
+  .slider__item {
+    margin: 30px 45px;
+  }
+}
+
+@media (max-width: 950px) {
+  .slider__track {
+    max-width: 690px;
+    margin: 0 30px;
+  }
+
+  .slider__items {
+    margin: 0 15px;
+  }
+
+  .slider__item {
+    margin: 30px 10px;
+  }
+
+  .slider__control-btn {
+    &--prev {
+      left: -5px;
+      transform: translateY(-50%) rotate(180deg) scale(0.5);
+    }
+
+    &--next {
+      right: -5px;
+      transform: translateY(-50%) scale(0.5);
+    }
+  }
+}
+
+@media (max-width: 770px) {
+  .slider__track {
+    max-width: 380px;
+  }
+
+  .slider__items {
+    margin: 0 30px;
+  }
+
+  .slider__item {
+    margin: 30px;
+  }
+}
+
+@media (max-width: 470px) {
+  .slider__track {
+    max-width: 310px;
+  }
+
+  .slider__items {
+    margin: 0 10px;
+  }
+
+  .slider__item {
+    min-width: 290px;
+    margin: 30px 10px;
+  }
 }
