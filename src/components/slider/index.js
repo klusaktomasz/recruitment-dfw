@@ -1,3 +1,5 @@
+import Pagination from './pagination';
+
 class Slider {
   /**
    * Creates new slider.
@@ -20,6 +22,7 @@ class Slider {
     this._manageResize = this._manageResize.bind(this);
     this.nextItems = this.nextItems.bind(this);
     this.prevItems = this.prevItems.bind(this);
+    this._handlePagination = this._handlePagination.bind(this);
 
     // Slider's items.
     this.$items = this.$el.querySelector('.slider__items');
@@ -37,6 +40,9 @@ class Slider {
     // Always start with first item.
     this._currentItemIndex = 0;
 
+    //
+    this._createPagination();
+
     window.addEventListener('resize', this._manageResize);
   }
 
@@ -48,6 +54,7 @@ class Slider {
     this._currentItemIndex = currentItemIndex;
     this.showItem(currentItemIndex);
     this._manageBtns();
+    this.pagination.setActivePage(Math.ceil(currentItemIndex / this.itemsToShow));
   }
 
   /**
@@ -75,6 +82,37 @@ class Slider {
     this._setItemsToShow()
     this.showItem(this.currentItemIndex);
     this._manageBtns();
+
+    this._createPagination();
+  }
+
+  /**
+   * Creates pagination for slider.
+   * @private
+   */
+  _createPagination () {
+    const paginationEl = this.$el.querySelector('.slider__pagination');
+    if (paginationEl) {
+      this.pagination = new Pagination(
+        paginationEl,
+        this.$items.children.length,
+        this.itemsToShow, this._handlePagination
+      );
+      this.pagination.setActivePage(Math.ceil(this.currentItemIndex / this.itemsToShow));
+    }
+  }
+
+  /**
+   * Callback for pagination click.
+   * @param {number} pageIndex
+   * @private
+   */
+  _handlePagination (pageIndex) {
+    let newFirstItemIndex = pageIndex * this.itemsToShow;
+    if (newFirstItemIndex > this.$items.children.length - this.itemsToShow) {
+      newFirstItemIndex = this.$items.children.length - this.itemsToShow;
+    }
+    this.currentItemIndex = newFirstItemIndex;
   }
 
   /**
