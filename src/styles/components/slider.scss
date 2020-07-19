@@ -1,7 +1,6 @@
 $overflowMargin: 10px;
 
 .slider {
-  // TODO (Tomasz Kłusak): Add diff padding for wider screens.
   padding: 0 $overflowMargin;
   position: relative;
   margin-top: 22px;
@@ -42,7 +41,7 @@ $overflowMargin: 10px;
   border: 0;
   position: absolute;
   top: 50%;
-
+  cursor: pointer;
   transition: background 0.3s ease-in-out;
   will-change: background;
 

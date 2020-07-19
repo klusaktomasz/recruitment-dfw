@@ -11,6 +11,7 @@
   will-change: background;
   transition: 0.4s background ease-in-out;
   margin: 0 5px;
+  cursor: pointer;
 
   &--active {
     background: $green;
