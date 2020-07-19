@@ -40,8 +40,25 @@ module.exports = (_env, argv) => {
               loader: 'postcss-loader',
               options: { plugins: () => autoprefixer()}
             },
-            'sass-loader'
+            {
+              loader: 'resolve-url-loader'
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              }
+            }
           ]
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/[name].[ext]'
+            }
+          }
         }
       ]
     },
@@ -50,8 +67,8 @@ module.exports = (_env, argv) => {
         template: path.resolve(__dirname, 'public/index.html'),
       }),
       new MiniCssExtractPlugin({
-        filename: devMode ? '[name].css' : 'css/[hash].css',
-        chunkFilename: devMode ? '[id].css' : 'css/[hash].css',
+        filename: devMode ? '[name].css' : '[hash].css',
+        chunkFilename: devMode ? '[id].css' : '[hash].css',
       }),
       new CopyPlugin({
         patterns: [{
