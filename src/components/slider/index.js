@@ -1,3 +1,4 @@
+import Navigation from './navigation';
 import Pagination from './pagination';
 
 class Slider {
@@ -22,17 +23,11 @@ class Slider {
     this._manageResize = this._manageResize.bind(this);
     this.nextItems = this.nextItems.bind(this);
     this.prevItems = this.prevItems.bind(this);
-    this._handlePagination = this._handlePagination.bind(this);
+    this.handleNavigation = this.handleNavigation.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
 
     // Slider's items.
     this.$items = this.$el.querySelector('.slider__items');
-
-    // Check if there are nav buttons, register all required events for them.
-    this.$prevBtn = this.$el.querySelector('.slider__control-btn--prev');
-    this.$nextBtn = this.$el.querySelector('.slider__control-btn--next');
-    if (this.$prevBtn && this.$nextBtn) {
-      this._registerNavButtons();
-    }
 
     this.itemsToShow = null;
     this._setItemsToShow();
@@ -40,7 +35,7 @@ class Slider {
     // Always start with first item.
     this._currentItemIndex = 0;
 
-    //
+    this._createNavigation();
     this._createPagination();
 
     window.addEventListener('resize', this._manageResize);
@@ -53,7 +48,7 @@ class Slider {
   set currentItemIndex (currentItemIndex) {
     this._currentItemIndex = currentItemIndex;
     this.showItem(currentItemIndex);
-    this._manageBtns();
+    this._setNavigationState();
     this.pagination.setActivePage(Math.ceil(currentItemIndex / this.itemsToShow));
   }
 
@@ -66,28 +61,45 @@ class Slider {
   }
 
   /**
-   * Registers button's events.
-   * @private
-   */
-  _registerNavButtons () {
-    this.$nextBtn.addEventListener('click', this.nextItems);
-    this.$prevBtn.addEventListener('click', this.prevItems);
-  }
-
-  /**
    * Recalculates position of slider.
    * @private
    */
   _manageResize() {
     this._setItemsToShow()
     this.showItem(this.currentItemIndex);
-    this._manageBtns();
 
     this._createPagination();
   }
 
   /**
-   * Creates pagination for slider.
+   * Creates navigation for slider.
+   * @private
+   */
+  _createNavigation () {
+    const prevBtn = this.$el.querySelector('.slider__control-btn--prev');
+    const nextBtn = this.$el.querySelector('.slider__control-btn--next');
+    if (prevBtn && nextBtn) {
+      this.navigation = new Navigation(prevBtn, nextBtn, this.handleNavigation);
+    }
+  }
+
+  /**
+   * Callback for navigation buttons.
+   *
+   * @param {number} side - represents in which side should slider go. Must be -1 or 1.
+   * @private
+   */
+  handleNavigation (side) {
+    if (side === -1) {
+      this.prevItems();
+    }
+    else {
+      this.nextItems();
+    }
+  }
+
+  /**
+   * Creates pagination for slider..
    * @private
    */
   _createPagination () {
@@ -96,8 +108,10 @@ class Slider {
       this.pagination = new Pagination(
         paginationEl,
         this.$items.children.length,
-        this.itemsToShow, this._handlePagination
+        this.itemsToShow,
+        this.handlePagination
       );
+
       this.pagination.setActivePage(Math.ceil(this.currentItemIndex / this.itemsToShow));
     }
   }
@@ -107,7 +121,7 @@ class Slider {
    * @param {number} pageIndex
    * @private
    */
-  _handlePagination (pageIndex) {
+  handlePagination (pageIndex) {
     let newFirstItemIndex = pageIndex * this.itemsToShow;
     if (newFirstItemIndex > this.$items.children.length - this.itemsToShow) {
       newFirstItemIndex = this.$items.children.length - this.itemsToShow;
@@ -119,13 +133,15 @@ class Slider {
    * Sets state of buttons depending on shown items.
    * @private
    */
-  _manageBtns () {
-    if (!this.$prevBtn || !this.$nextBtn) {
+  _setNavigationState () {
+    if (!this.navigation) {
       return;
     }
 
-    this.$prevBtn.disabled = this.currentItemIndex === 0;
-    this.$nextBtn.disabled = this.currentItemIndex + this.itemsToShow >= this.$items.children.length;
+    this.navigation.setStates(
+      this.currentItemIndex === 0,
+      this.currentItemIndex + this.itemsToShow >= this.$items.children.length
+    );
   }
 
   /**
