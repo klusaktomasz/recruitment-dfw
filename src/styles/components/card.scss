@@ -17,11 +17,9 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 75px;
-      height: 75px;
-      background: $green;
-      border-radius: 6px;
-      transform: translate(-10px, 45px) rotate(45deg) skew(-15deg, -12deg);
+      width: 104px;
+      height: 33px;
+      background: url(../../assets/card-ribbon.svg);
     }
   }
 }
