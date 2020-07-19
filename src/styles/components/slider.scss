@@ -1,17 +1,59 @@
+$overflowMargin: 10px;
+
 .slider {
   // TODO (Tomasz Kłusak): Add diff padding for wider screens.
-  padding: 1.9em 0.625em;
+  padding: 0 $overflowMargin;
+  max-width: 1480px;
+  position: relative;
+}
 
+.slider__track {
+  overflow: hidden;
 }
 
 .slider__items {
   list-style: none;
-  margin: 0;
+  margin: 0 60px;
   padding: 0;
   display: flex;
 }
 
 .slider__item {
-  min-width: 320px;
+  min-width: 358px;
   max-width: 358px;
+  margin: 30px 45px;
+
+  &--un {
+    opacity: 0;
+  }
+}
+
+.slider__control-btn {
+  width: 60px;
+  height: 162px;
+  background: url(../../assets/arrow.svg);
+  border: 0;
+  position: absolute;
+  top: 50%;
+
+  &--prev {
+    transform: translateY(-50%) rotate(180deg);
+    left: $overflowMargin;
+  }
+
+  &--next {
+    transform: translateY(-50%);
+    right: $overflowMargin;
+  }
+
+  &:disabled,
+  &--disabled {
+    background: url(../../assets/arrow-disabled.svg);
+  }
+}
+
+.slider__pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
