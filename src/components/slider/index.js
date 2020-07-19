@@ -12,9 +12,9 @@ class Slider {
     }
 
     // Bind this to all functions
+    this._manageResize = this._manageResize.bind(this);
     this.nextItems = this.nextItems.bind(this);
     this.prevItems = this.prevItems.bind(this);
-    this.showItem = this.showItem.bind(this);
 
     //
     this.$items = this.$el.querySelector('.slider__items');
@@ -32,6 +32,8 @@ class Slider {
 
     //
     this._currentItemIndex = 0;
+
+    window.addEventListener('resize', this._manageResize);
   }
 
   set currentItemIndex (currentItemIndex) {
@@ -47,6 +49,12 @@ class Slider {
   _registerNavButtons () {
     this.$nextBtn.addEventListener('click', this.nextItems);
     this.$prevBtn.addEventListener('click', this.prevItems);
+  }
+
+  _manageResize() {
+    this._setItemsToShow()
+    this.showItem(this.currentItemIndex);
+    this._manageBtns();
   }
 
   _manageBtns () {
