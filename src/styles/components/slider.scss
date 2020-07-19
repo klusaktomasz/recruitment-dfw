@@ -4,6 +4,7 @@ $overflowMargin: 10px;
   // TODO (Tomasz Kłusak): Add diff padding for wider screens.
   padding: 0 $overflowMargin;
   position: relative;
+  margin-top: 22px;
 }
 
 .slider__track {
@@ -79,6 +80,10 @@ $overflowMargin: 10px;
 }
 
 @media (max-width: 1280px) {
+  .slider {
+    margin-top: 0;
+  }
+
   .slider__track {
     max-width: 810px;
   }
