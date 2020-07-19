@@ -17,11 +17,13 @@ $overflowMargin: 10px;
   margin: 0 45px;
   padding: 0;
   display: flex;
+  transition: transform 0.4s ease-in-out;
 }
 
 .slider__item {
   min-width: 358px;
   margin: 30px 45px;
+  transition: opacity 0.3s ease-in-out;
 
   &:first-of-type {
     margin-left: 0;
@@ -39,6 +41,9 @@ $overflowMargin: 10px;
   border: 0;
   position: absolute;
   top: 50%;
+
+  transition: background 0.3s ease-in-out;
+  will-change: background;
 
   &--prev {
     transform: translateY(-50%) rotate(180deg);
